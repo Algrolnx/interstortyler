@@ -1,0 +1,67 @@
+{% extends "stories/base.html" %}
+
+{% block title %}InterStorytler — Start Your Story{% endblock %}
+
+{% block content %}
+
+<h1 class="text-4xl font-bold text-purple-300 mb-2">AI Interactive Storyteller</h1>
+<p class="text-gray-400 mb-10">Start a story. AI will continue it. You choose what happens next.</p>
+
+{% if error %}
+<div class="bg-red-900 border border-red-600 text-red-200 px-4 py-3 rounded mb-6">
+    {{ error }}
+</div>
+{% endif %}
+
+<div class="bg-gray-900 border border-gray-800 rounded-xl p-6 mb-12">
+    <h2 class="text-xl font-semibold text-white mb-4">✨ Start a New Story</h2>
+    <form method="POST" action="{% url 'create_story' %}">
+        {% csrf_token %}
+
+        <div class="mb-4">
+            <label class="block text-sm text-gray-400 mb-1">Story Title</label>
+            <input type="text" name="title" required placeholder="e.g. The Last Dragon"
+                class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-purple-500">
+        </div>
+
+        <div class="mb-4">
+            <label class="block text-sm text-gray-400 mb-1">Genre</label>
+            <select name="genre"
+                class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-purple-500">
+                {% for value, label in genres %}
+                <option value="{{ value }}">{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-6">
+            <label class="block text-sm text-gray-400 mb-1">Opening sentence</label>
+            <textarea name="opening" required rows="3"
+                placeholder="e.g. The knight stepped into the cursed forest alone..."
+                class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-purple-500"></textarea>
+        </div>
+
+        <button type="submit"
+            class="bg-purple-600 hover:bg-purple-500 text-white font-semibold px-6 py-2 rounded-lg transition">
+            Begin Story →
+        </button>
+    </form>
+</div>
+
+{% if stories %}
+<h2 class="text-lg font-semibold text-gray-300 mb-4">📚 Continue a Story</h2>
+<div class="space-y-3 mb-10">
+    {% for story in stories %}
+    <a href="{% url 'story_detail' story.pk %}"
+        class="block bg-gray-900 border border-gray-800 hover:border-purple-700 rounded-xl px-5 py-4 transition">
+        <div class="flex justify-between items-center">
+            <span class="font-medium text-white">{{ story.title }}</span>
+            <span class="text-xs text-purple-400 uppercase">{{ story.genre }}</span>
+        </div>
+        <p class="text-xs text-gray-500 mt-1">{{ story.updated_at|timesince }} ago</p>
+    </a>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% endblock %}

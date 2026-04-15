@@ -44,7 +44,7 @@ class RateLimit(models.Model):
     requests_today = models.PositiveIntegerField(default=0)
     requests_this_minute = models.PositiveIntegerField(default=0)
     last_request_at = models.DateTimeField(auto_now=True)
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateField(auto_now_add=True)
 
     class Meta:
         unique_together = ('ip_address', 'date')

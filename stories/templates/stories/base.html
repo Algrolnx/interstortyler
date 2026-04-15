@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}InterStorytler{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+        }
+
+        .story-text {
+            line-height: 1.9;
+        }
+
+        .htmx-indicator {
+            opacity: 0;
+            transition: opacity 200ms ease-in;
+        }
+
+        .htmx-request .htmx-indicator {
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-950 text-gray-100 min-h-screen">
+
+    <nav class="border-b border-gray-800 px-6 py-4 flex items-center justify-between">
+        <a href="/" class="text-xl font-bold text-purple-400 tracking-wide">📖 InterStorytler</a>
+        <a href="/" class="text-sm text-gray-400 hover:text-white transition">← All Stories</a>
+    </nav>
+
+    <main class="max-w-3xl mx-auto px-4 py-10">
+        {% block content %}{% endblock %}
+    </main>
+
+</body>
+
+</html>
